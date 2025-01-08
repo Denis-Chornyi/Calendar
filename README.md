@@ -1,6 +1,6 @@
 ## Project: Calendar
 
-### [GitHub Page]()
+### [GitHub Page](https://calendat-test-task.netlify.app/)
 
 ### The tech stack is:
 
