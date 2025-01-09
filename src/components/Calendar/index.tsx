@@ -113,14 +113,6 @@ export function Calendar() {
   return (
     <Styled.CalendarContainer>
       <Styled.HeaderContainer>
-        <CalendarHeader
-          currentDate={currentDate}
-          onPrevMonth={() => handleNavigate("prev")}
-          onNextMonth={() => handleNavigate("next")}
-          onToday={handleToday}
-          view={view}
-          onViewChange={setView}
-        />
         <Styled.SearchContainer>
           <Styled.SearchIcon size={20} />
           <Styled.SearchInput
@@ -130,6 +122,14 @@ export function Calendar() {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </Styled.SearchContainer>
+        <CalendarHeader
+          currentDate={currentDate}
+          onPrevMonth={() => handleNavigate("prev")}
+          onNextMonth={() => handleNavigate("next")}
+          onToday={handleToday}
+          view={view}
+          onViewChange={setView}
+        />
       </Styled.HeaderContainer>
 
       <DragDropContext onDragEnd={handleDragEnd}>

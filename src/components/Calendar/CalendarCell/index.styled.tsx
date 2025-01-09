@@ -5,6 +5,7 @@ export const CalendarCell = styled.div`
   padding: 0.75rem;
   border-right: 1px solid #e5e7eb;
   border-bottom: 1px solid #e5e7eb;
+  border-radius: 0.15rem;
   background-color: ${({ color }) => color};
 `;
 
@@ -37,8 +38,8 @@ export const AddTaskButton = styled.button`
 `;
 
 export const HolidayTag = styled.div`
-  background-color: #fee2e2;
-  color: #991b1b;
+  background-color: #ff5252;
+  color: #fff;
   padding: 0.25rem 0.5rem;
   border-radius: 0.25rem;
   font-size: 0.75rem;

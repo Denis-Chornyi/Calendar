@@ -21,4 +21,6 @@ export const WeekdayColumn = styled.div`
 export const CalendarGridWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(7, 1fr);
+  gap: 0.125rem;
+  padding-top: 0.125rem;
 `;

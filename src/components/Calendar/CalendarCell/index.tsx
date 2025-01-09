@@ -40,7 +40,7 @@ export function CalendarCell({
   };
 
   return (
-    <Styled.CalendarCell color={isCurrentMonth ? "#fff" : "#f9fafb"}>
+    <Styled.CalendarCell color={isCurrentMonth ? "#80808022" : "#f9fafb"}>
       <Styled.CalendarCellHeader>
         <Styled.CalendarDate color={isCurrentMonth ? "#111827" : "#9ca3af"}>
           {dayNumber}

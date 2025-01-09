@@ -4,6 +4,7 @@ export const HeaderWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
   padding: 1rem;
 `;
 
@@ -30,8 +31,8 @@ export const ChevronButton = styled.button`
 `;
 
 export const DateText = styled.h2`
-  color: gray;
-  font-weight: 500;
+  color: #000;
+  font-weight: 700;
 `;
 
 export const TodayButton = styled.button`
@@ -42,7 +43,7 @@ export const TodayButton = styled.button`
   font-size: 0.875rem;
   font-weight: 500;
   color: #374151;
-  background-color: transparent;
+  background-color: #80808022;
   border-radius: 0.375rem;
   transition: background-color 0.2s ease;
 
@@ -58,7 +59,8 @@ export const WeekOrMonthButton = styled.button<{ $isActive: boolean }>`
   font-weight: 500;
   transition: background-color 0.2s ease, color 0.2s ease;
   color: ${({ $isActive }) => ($isActive ? "#fff" : "#374151")};
-  background-color: ${({ $isActive }) => ($isActive ? "#111827" : "transparent")};
+  background-color: ${({ $isActive }) =>
+    $isActive ? "#111827" : "transparent"};
 
   &:hover {
     background-color: ${({ $isActive }) => ($isActive ? "#111827" : "#f3f4f6")};

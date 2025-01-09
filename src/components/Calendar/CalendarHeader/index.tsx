@@ -34,7 +34,7 @@ export function CalendarHeader({
   ];
 
   return (
-    <Styled.HeaderWrapper>
+    <Styled.HeaderWrapper className="header">
       <Styled.NavigationWrapper>
         <Styled.ButtonsWrapper>
           <Styled.ChevronButton onClick={onPrevMonth}>
@@ -43,17 +43,15 @@ export function CalendarHeader({
           <Styled.ChevronButton onClick={onNextMonth}>
             <ChevronDown size={20} />
           </Styled.ChevronButton>
-          <Styled.DateText>
-            {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
-          </Styled.DateText>
         </Styled.ButtonsWrapper>
-
         <Styled.TodayButton onClick={onToday}>
           <CalendarIcon size={16} />
           Today
         </Styled.TodayButton>
+        <Styled.DateText>
+          {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
+        </Styled.DateText>
       </Styled.NavigationWrapper>
-
       <Styled.ButtonsWrapper>
         <Styled.WeekOrMonthButton
           onClick={() => onViewChange("week")}
