@@ -2,11 +2,21 @@ import styled from "styled-components";
 
 export const CalendarCell = styled.div`
   min-height: 140px;
+
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+
   padding: 0.75rem;
+
   border-right: 1px solid #e5e7eb;
   border-bottom: 1px solid #e5e7eb;
+
   border-radius: 0.15rem;
+
   background-color: ${({ color }) => color};
+
+  box-sizing: border-box;
 `;
 
 export const CalendarCellHeader = styled.div`
@@ -48,6 +58,10 @@ export const HolidayTag = styled.div`
 
 export const TaskCardWrapper = styled.div`
   margin-top: 0.5rem;
+
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
 
   & > * + * {
     margin-top: 0.5rem;

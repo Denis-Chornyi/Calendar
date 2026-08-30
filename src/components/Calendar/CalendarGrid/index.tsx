@@ -5,6 +5,18 @@ import {
   getFirstDayOfMonth,
   formatDate,
 } from "../../../utils/dateUtils";
+import JanuaryImage from "../../../assets/calendar/January.jpeg";
+import FebruaryImage from "../../../assets/calendar/February.jpeg";
+import MarchImage from "../../../assets/calendar/March.jpeg";
+import AprilImage from "../../../assets/calendar/April.jpg";
+import MayImage from "../../../assets/calendar/May.jpg";
+import JuneImage from "../../../assets/calendar/June.jpg";
+import JulyImage from "../../../assets/calendar/July.jpg";
+import AugustImage from "../../../assets/calendar/August.jpg";
+import SeptemberImage from "../../../assets/calendar/September.jpg";
+import OctoberImage from "../../../assets/calendar/October.jpg";
+import NovemberImage from "../../../assets/calendar/November.jpg";
+import DecemberImage from "../../../assets/calendar/December.jpg";
 
 import * as Styled from "./index.styled";
 
@@ -31,6 +43,23 @@ export function CalendarGrid({
 }: CalendarGridProps) {
   const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
+  const monthImages = [
+    JanuaryImage,
+    FebruaryImage,
+    MarchImage,
+    AprilImage,
+    MayImage,
+    JuneImage,
+    JulyImage,
+    AugustImage,
+    SeptemberImage,
+    OctoberImage,
+    NovemberImage,
+    DecemberImage,
+  ];
+
+  const currentMonthImage = monthImages[currentDate.getMonth()];
+
   const daysInMonth = getDaysInMonth(currentDate);
   const firstDayOfMonth = getFirstDayOfMonth(currentDate);
 
@@ -49,7 +78,7 @@ export function CalendarGrid({
     date: Date,
     isCurrentMonth: boolean,
     dayTasks: Task[] = [],
-    holiday?: Holiday
+    holiday?: Holiday,
   ) => (
     <CalendarCell
       key={formatDate(date)}
@@ -71,7 +100,7 @@ export function CalendarGrid({
       : Array.from(
           { length: daysInMonth },
           (_, i) =>
-            new Date(currentDate.getFullYear(), currentDate.getMonth(), i + 1)
+            new Date(currentDate.getFullYear(), currentDate.getMonth(), i + 1),
         );
 
   const getHolidayForDate = (date: Date) => {
@@ -87,23 +116,13 @@ export function CalendarGrid({
         ))}
       </Styled.WeekdayHeader>
 
-      <Styled.CalendarGridWrapper>
+      <Styled.CalendarGridWrapper $backgroundImage={currentMonthImage}>
         {view === "month" &&
           Array(firstDayOfMonth)
             .fill(null)
-            .map((_, index) => {
-              const prevMonth = new Date(currentDate);
-              prevMonth.setMonth(prevMonth.getMonth() - 1);
-              const daysInPrevMonth = getDaysInMonth(prevMonth);
-              const day = daysInPrevMonth - firstDayOfMonth + index + 1;
-              const date = new Date(
-                prevMonth.getFullYear(),
-                prevMonth.getMonth(),
-                day
-              );
-
-              return renderCalendarCell(date, false);
-            })}
+            .map((_, index) => (
+              <Styled.EmptyCell key={`empty-prev-${index}`} />
+            ))}
 
         {days.map((date) => {
           const dateStr = formatDate(date);
@@ -116,18 +135,9 @@ export function CalendarGrid({
         {view === "month" &&
           Array(42 - firstDayOfMonth - daysInMonth)
             .fill(null)
-            .map((_, index) => {
-              const nextMonth = new Date(currentDate);
-              nextMonth.setMonth(nextMonth.getMonth() + 1);
-              const day = index + 1;
-              const date = new Date(
-                nextMonth.getFullYear(),
-                nextMonth.getMonth(),
-                day
-              );
-
-              return renderCalendarCell(date, false);
-            })}
+            .map((_, index) => (
+              <Styled.EmptyCell key={`empty-next-${index}`} />
+            ))}
       </Styled.CalendarGridWrapper>
     </Styled.CalendarGridContainer>
   );

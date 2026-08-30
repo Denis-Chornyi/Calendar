@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import { DraggableProvided } from "@hello-pangea/dnd";
 import { X } from "lucide-react";
 import { Task } from "../../../types";
-
 import * as Styled from "./index.styled";
 
 type TaskCardProps = {
@@ -31,7 +30,8 @@ export function TaskCard({
   const [isEditing, setIsEditing] = useState(false);
   const [editText, setEditText] = useState(task.text);
   const [showLabelPicker, setShowLabelPicker] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
+
+  const inputRef = useRef<HTMLTextAreaElement>(null);
   const labelPickerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -51,23 +51,37 @@ export function TaskCard({
     }
 
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && editText.trim()) {
-      onUpdate(task.id, editText.trim());
-      setIsEditing(false);
-    } else if (e.key === "Escape") {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Escape") {
       setEditText(task.text);
       setIsEditing(false);
     }
+  };
+
+  const handleEditBlur = () => {
+    if (editText.trim() && editText.trim() !== task.text) {
+      onUpdate(task.id, editText.trim());
+    }
+
+    setIsEditing(false);
+  };
+
+  const handleEditStart = () => {
+    setEditText(task.text);
+    setIsEditing(true);
   };
 
   const toggleLabel = (labelId: string) => {
     const newLabels = task.labels.includes(labelId)
       ? task.labels.filter((l) => l !== labelId)
       : [...task.labels, labelId];
+
     onUpdateLabels(task.id, newLabels);
   };
 
@@ -86,26 +100,40 @@ export function TaskCard({
       {isEditing ? (
         <Styled.TaskInput
           ref={inputRef}
-          type="text"
           value={editText}
           onChange={(e) => setEditText(e.target.value)}
           onKeyDown={handleKeyDown}
-          onBlur={() => {
-            setIsEditing(false);
-            setEditText(task.text);
-          }}
+          onBlur={handleEditBlur}
         />
       ) : (
         <Styled.InputWrapper className="group">
           <Styled.InputText>{task.text}</Styled.InputText>
+
           <Styled.TaskActions>
-            <Styled.ActionsButton onClick={() => setShowLabelPicker(true)}>
+            <Styled.ActionsButton
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowLabelPicker(true);
+              }}
+            >
               <Styled.TagIcon size={12} />
             </Styled.ActionsButton>
-            <Styled.ActionsButton onClick={() => setIsEditing(true)}>
+
+            <Styled.ActionsButton
+              onClick={(e) => {
+                e.stopPropagation();
+                handleEditStart();
+              }}
+            >
               <Styled.EditIcon size={12} />
             </Styled.ActionsButton>
-            <Styled.ActionsButton onClick={() => onDelete(task.id)}>
+
+            <Styled.ActionsButton
+              onClick={(e) => {
+                e.stopPropagation();
+                onDelete(task.id);
+              }}
+            >
               <Styled.XIcon size={12} />
             </Styled.ActionsButton>
           </Styled.TaskActions>
@@ -120,7 +148,9 @@ export function TaskCard({
                   onClick={() => toggleLabel(label.id)}
                 >
                   <Styled.TaskLabel color={label.id} />
+
                   <Styled.LabelName>{label.name}</Styled.LabelName>
+
                   {task.labels.includes(label.id) && <X size={12} />}
                 </Styled.LabelButton>
               ))}

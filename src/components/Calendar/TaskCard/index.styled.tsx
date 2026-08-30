@@ -1,13 +1,22 @@
 import styled from "styled-components";
 import { X, Edit2, Tag } from "lucide-react";
 
-export const TaskCard = styled.div<{ color?: string }>`
+export const TaskCard = styled.div`
   position: relative;
+
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+
+  box-sizing: border-box;
+
   background-color: white;
   border: 1px solid #e5e7eb;
   border-radius: 0.375rem;
   padding: 0.35rem;
+
   margin-bottom: 0.5rem;
+
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 
   &:hover {
@@ -16,9 +25,28 @@ export const TaskCard = styled.div<{ color?: string }>`
 `;
 
 export const TaskLabelWrapper = styled.div`
+  position: absolute;
+
+  top: 4px;
+  left: 8px;
+
   display: flex;
+  flex-wrap: nowrap;
   gap: 0.25rem;
-  margin-bottom: 0.25rem;
+
+  width: 159px;
+  height: 18px;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  z-index: 2;
+
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export const TaskLabel = styled.div<{ color: string }>`
@@ -46,7 +74,9 @@ export const TaskLabel = styled.div<{ color: string }>`
 
 export const TaskActions = styled.div`
   display: flex;
+  flex-shrink: 0;
   gap: 0.25rem;
+
   transition: opacity 0.2s;
   opacity: 0;
 
@@ -55,27 +85,104 @@ export const TaskActions = styled.div`
   }
 `;
 
-export const TaskInput = styled.input`
+export const TaskInput = styled.textarea`
   width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+
   padding: 0.125rem 0.25rem;
+
   font-size: 0.875rem;
+  line-height: 1.4;
+
   border: 1px solid;
   border-radius: 0.25rem;
+
+  resize: vertical;
+  overflow-wrap: anywhere;
 `;
 
 export const InputWrapper = styled.div`
   display: flex;
   align-items: flex-start;
-  justify-content: space-between;
 
-  &:hover .child-class {
-    color: #374151;
-  }
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+
+  padding-top: 18px;
+`;
+
+export const TextTooltip = styled.div`
+  position: relative;
+
+  flex: 1;
+  min-width: 0;
+  max-width: 100%;
 `;
 
 export const InputText = styled.p`
+  flex: 1;
+  min-width: 0;
+  max-width: 100%;
+
+  margin: 0;
+
   font-size: 0.875rem;
-  color: #374151;
+  line-height: 1.4;
+
+  height: calc(0.875rem * 1.4 * 2);
+  max-height: calc(0.875rem * 1.4 * 2);
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  word-break: break-word;
+  overflow-wrap: anywhere;
+
+  scrollbar-width: thin;
+`;
+
+export const Tooltip = styled.div`
+  position: absolute;
+
+  left: 0;
+  top: calc(100% + 8px);
+
+  width: 300px;
+  max-width: 70vw;
+
+  padding: 0.75rem;
+
+  background-color: #1f2937;
+  color: white;
+
+  border-radius: 0.375rem;
+
+  font-size: 0.875rem;
+  line-height: 1.4;
+
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+  opacity: 0;
+  visibility: hidden;
+
+  transition:
+    opacity 0.15s ease,
+    visibility 0.15s ease;
+
+  z-index: 100;
+
+  pointer-events: none;
+
+  ${TextTooltip}:hover & {
+    opacity: 1;
+    visibility: visible;
+  }
 `;
 
 export const TagIcon = styled(Tag)`
