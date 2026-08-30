@@ -10,19 +10,29 @@ import * as Styled from "./index.styled";
 export function Calendar() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [view, setView] = useState<"month" | "week">("month");
-  const [tasks, setTasks] = useState<Task[]>([]);
+  const [tasks, setTasks] = useState<Task[]>(() => {
+    const savedTasks = localStorage.getItem("calendar-tasks");
+
+    return savedTasks ? JSON.parse(savedTasks) : [];
+  });
   const [holidays, setHolidays] = useState<Holiday[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const fetchHolidays = async () => {
       const year = currentDate.getFullYear();
+
       const holidayData = await getHolidays(year);
+
       setHolidays(holidayData);
     };
 
     fetchHolidays();
   }, [currentDate]);
+
+  useEffect(() => {
+    localStorage.setItem("calendar-tasks", JSON.stringify(tasks));
+  }, [tasks]);
 
   const handleDragEnd = (result: DropResult) => {
     if (!result.destination) return;
@@ -34,7 +44,7 @@ export function Calendar() {
     setTasks((prevTasks) => {
       const newTasks = [...prevTasks];
       const taskIndex = newTasks.findIndex(
-        (t) => t.date === sourceDate && t.order === source.index
+        (t) => t.date === sourceDate && t.order === source.index,
       );
 
       if (taskIndex === -1) return prevTasks;
@@ -76,7 +86,7 @@ export function Calendar() {
 
   const filteredTasks = searchQuery
     ? tasks.filter((task) =>
-        task.text.toLowerCase().includes(searchQuery.toLowerCase())
+        task.text.toLowerCase().includes(searchQuery.toLowerCase()),
       )
     : tasks;
 
@@ -95,14 +105,16 @@ export function Calendar() {
   const handleUpdateTask = (taskId: string, newText: string) => {
     setTasks((prevTasks) =>
       prevTasks.map((task) =>
-        task.id === taskId ? { ...task, text: newText } : task
-      )
+        task.id === taskId ? { ...task, text: newText } : task,
+      ),
     );
   };
 
   const handleUpdateLabels = (taskId: string, labels: string[]) => {
     setTasks((prevTasks) =>
-      prevTasks.map((task) => (task.id === taskId ? { ...task, labels } : task))
+      prevTasks.map((task) =>
+        task.id === taskId ? { ...task, labels } : task,
+      ),
     );
   };
 
